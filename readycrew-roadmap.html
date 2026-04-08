@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Trades Hiring Roadmap — ReadyCrew</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #C2410C;
+    --orange-light: #EA580C;
+    --dark: #111827;
+    --dark2: #1F2937;
+    --white: #FFFFFF;
+    --grey: #6B7280;
+    --border: #E5E7EB;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: #000;
+    color: var(--white);
+    height: 100vh;
+    overflow: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 12px;
+    height: 12px;
+    background: var(--orange);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.2s, height 0.2s;
+  }
+  .cursor.grow { width: 40px; height: 40px; opacity: 0.4; }
+
+  /* Slides wrapper */
+  #slides {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* Background image with overlay */
+  .slide-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+  .slide-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  /* Slide types */
+  .slide-cover .slide-bg::after { background: linear-gradient(135deg, rgba(17,24,39,0.92) 0%, rgba(17,24,39,0.75) 60%, rgba(194,65,12,0.3) 100%); }
+  .slide-section .slide-bg::after { background: linear-gradient(to right, rgba(17,24,39,0.97) 0%, rgba(17,24,39,0.85) 100%); }
+  .slide-content .slide-bg::after { background: rgba(17,24,39,0.88); }
+  .slide-light { background: var(--white); color: var(--dark); }
+  .slide-light .slide-bg::after { background: rgba(255,255,255,0.93); }
+  .slide-stat .slide-bg::after { background: linear-gradient(135deg, rgba(17,24,39,0.96) 0%, rgba(194,65,12,0.15) 100%); }
+  .slide-cta .slide-bg::after { background: linear-gradient(135deg, var(--dark) 0%, rgba(194,65,12,0.6) 100%); }
+
+  /* Content container */
+  .slide-inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 64px 80px;
+  }
+
+  /* Logo bug */
+  .logo-bug {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: auto;
+  }
+  .logo-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--orange);
+    border-radius: 50%;
+  }
+  .logo-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--white);
+    opacity: 0.9;
+  }
+  .slide-light .logo-text { color: var(--dark); }
+
+  /* Section label */
+  .section-label {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 20px;
+  }
+
+  /* Headlines */
+  .slide-headline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    line-height: 0.92;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+  }
+  .headline-xl { font-size: clamp(64px, 9vw, 120px); }
+  .headline-lg { font-size: clamp(48px, 7vw, 92px); }
+  .headline-md { font-size: clamp(36px, 5vw, 68px); }
+  .headline-sm { font-size: clamp(28px, 4vw, 48px); }
+  .headline-orange { color: var(--orange); }
+  .headline-white { color: var(--white); }
+  .headline-dark { color: var(--dark); }
+
+  /* Body text */
+  .slide-body {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+    font-size: clamp(16px, 1.8vw, 22px);
+    line-height: 1.65;
+    color: rgba(255,255,255,0.8);
+    max-width: 680px;
+  }
+  .slide-light .slide-body { color: var(--dark2); }
+
+  /* Callout box */
+  .callout {
+    border-left: 4px solid var(--orange);
+    padding: 20px 28px;
+    background: rgba(194,65,12,0.1);
+    max-width: 700px;
+    margin-top: 32px;
+  }
+  .callout-label {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 8px;
+  }
+  .callout p {
+    font-size: 17px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.85);
+    font-style: italic;
+  }
+  .slide-light .callout { background: rgba(194,65,12,0.06); }
+  .slide-light .callout p { color: var(--dark2); }
+
+  /* Mistake box */
+  .mistake-box {
+    border: 1px solid rgba(194,65,12,0.3);
+    padding: 24px 28px;
+    margin-bottom: 16px;
+    position: relative;
+    max-width: 780px;
+  }
+  .mistake-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 48px;
+    color: var(--orange);
+    opacity: 0.25;
+    position: absolute;
+    top: 12px;
+    right: 20px;
+    line-height: 1;
+  }
+  .mistake-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .mistake-body {
+    font-size: 15px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.55;
+  }
+
+  /* Step framework boxes */
+  .step-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 32px;
+    max-width: 900px;
+  }
+  .step-box {
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .step-box:hover { border-color: var(--orange); }
+  .step-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--orange);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .step-box:hover::before { transform: scaleX(1); }
+  .step-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 56px;
+    color: var(--orange);
+    opacity: 0.3;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .step-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 24px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .step-sub {
+    font-size: 13px;
+    color: var(--orange);
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .step-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.65);
+  }
+
+  /* Criteria list */
+  .criteria-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    max-width: 860px;
+    margin-top: 28px;
+  }
+  .criteria-item {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .criteria-check {
+    width: 28px;
+    height: 28px;
+    border: 2px solid var(--orange);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .criteria-check svg { width: 14px; height: 14px; }
+  .criteria-text { font-size: 15px; line-height: 1.5; color: rgba(255,255,255,0.8); }
+  .criteria-text strong { color: var(--white); display: block; font-weight: 600; font-size: 15px; margin-bottom: 2px; }
+
+  /* Big stat */
+  .big-stat {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: clamp(80px, 12vw, 160px);
+    line-height: 0.9;
+    color: var(--orange);
+    text-transform: uppercase;
+    letter-spacing: -2px;
+  }
+  .stat-label {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-top: 12px;
+  }
+
+  /* Two path layout */
+  .two-path {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+  }
+  .path-side {
+    padding: 64px 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .path-side.dark-side { background: var(--dark); }
+  .path-side.orange-side { background: var(--orange); }
+  .path-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 36px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+  }
+  .path-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+  .path-icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .path-item p { font-size: 16px; line-height: 1.5; opacity: 0.9; }
+
+  /* CTA slide */
+  .cta-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+  .cta-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(194,65,12,0.2);
+    border: 1px solid var(--orange);
+    padding: 8px 20px;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--orange);
+    width: fit-content;
+    margin-bottom: 36px;
+  }
+  .cta-checklist {
+    list-style: none;
+    margin-top: 36px;
+  }
+  .cta-checklist li {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    font-size: 17px;
+    color: rgba(255,255,255,0.8);
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .cta-checklist li span { color: var(--orange); font-size: 20px; font-weight: 700; }
+  .cta-url {
+    margin-top: 48px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    color: var(--orange);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .cta-url::after { content: '→'; }
+
+  /* Navigation */
+  #nav {
+    position: fixed;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 100;
+    background: rgba(17,24,39,0.8);
+    backdrop-filter: blur(12px);
+    padding: 12px 24px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .nav-btn {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.6);
+    cursor: pointer;
+    padding: 4px 8px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    cursor: none;
+  }
+  .nav-btn:hover { color: var(--orange); }
+  .nav-counter {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 2px;
+    min-width: 60px;
+    text-align: center;
+  }
+  .nav-divider { width: 1px; height: 20px; background: rgba(255,255,255,0.15); }
+
+  /* Progress bar */
+  #progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: var(--orange);
+    transition: width 0.4s ease;
+    z-index: 100;
+  }
+
+  /* Slide number */
+  #slide-num {
+    position: fixed;
+    top: 28px;
+    right: 36px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.3);
+    z-index: 100;
+  }
+
+  /* Intro animation */
+  .slide.active .animate-up {
+    animation: slideUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .slide.active .animate-up:nth-child(1) { animation-delay: 0.05s; }
+  .slide.active .animate-up:nth-child(2) { animation-delay: 0.15s; }
+  .slide.active .animate-up:nth-child(3) { animation-delay: 0.25s; }
+  .slide.active .animate-up:nth-child(4) { animation-delay: 0.35s; }
+  .slide.active .animate-up:nth-child(5) { animation-delay: 0.45s; }
+  .slide.active .animate-up:nth-child(6) { animation-delay: 0.55s; }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Utility */
+  .mt-auto { margin-top: auto; }
+  .mt-16 { margin-top: 16px; }
+  .mt-24 { margin-top: 24px; }
+  .mt-32 { margin-top: 32px; }
+  .mt-48 { margin-top: 48px; }
+  .mb-8 { margin-bottom: 8px; }
+  .mb-16 { margin-bottom: 16px; }
+  .mb-24 { margin-bottom: 24px; }
+
+  /* Horizontal rule orange */
+  .orange-line {
+    width: 64px;
+    height: 3px;
+    background: var(--orange);
+    margin: 24px 0;
+  }
+
+  /* Split layout */
+  .split-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    flex: 1;
+  }
+
+  /* Quote */
+  .big-quote {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: clamp(24px, 3.5vw, 42px);
+    line-height: 1.15;
+    color: var(--white);
+    font-style: italic;
+    position: relative;
+    padding-left: 32px;
+    border-left: 4px solid var(--orange);
+  }
+
+  /* Tags */
+  .tag {
+    display: inline-block;
+    background: var(--orange);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    margin-bottom: 20px;
+  }
+
+  /* Numbered list */
+  .num-list { margin-top: 24px; counter-reset: items; }
+  .num-item {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    counter-increment: items;
+  }
+  .num-item-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 32px;
+    color: var(--orange);
+    opacity: 0.5;
+    line-height: 1;
+    min-width: 32px;
+  }
+  .num-item-content strong {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--white);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .num-item-content p { font-size: 15px; color: rgba(255,255,255,0.65); line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div id="progress"></div>
+<div id="slide-num">01 / 24</div>
+
+<div id="slides">
+
+  <!-- SLIDE 1: COVER -->
+  <div class="slide slide-cover active" id="s1">
+    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1600&q=80')"></div>
+    <div class="slide-inner">
+      <div class="logo-bug animate-up">
+        <div class="logo-dot"></div>
+        <span class="logo-text">ReadyCrew Staffing</span>
+      </div>
+      <div style="margin-top: auto; margin-bottom: auto; padding-top: 40px;">
+        <div class="section-label animate-up">The Lead Magnet</div>
+        <h1 class="slide-headline headline-xl headline-white animate-up">THE TRADES<br><span class="headline-orange">HIRING</span><br>ROADMAP</h1>
+        <div class="orange-line animate-up"></div>
+        <p class="slide-body animate-up" style="max-width: 520px;">Why Your Trucks Are Empty — And The One Thing That Finally Fixes It</p>
+      </div>
+      <div class="animate-up" style="opacity: 0.4; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; font-weight: 600;">readycrewstaffing.com</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: LETTER -->
+  <div class="slide slide-content" id="s2">
+    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1600&q=80')"></div>
+    <div class="slide-inner">
+      <div class="logo-bug animate-up"><div class="logo-dot"></div><span class="logo-text">ReadyCrew</span></div>
+      <div style="max-width: 680px; margin: auto 0;">
+        <div class="section-label animate-up">Letter to the Shop Owner</div>
+        <h2 class="slide-headline headline-md headline-white animate-up">Dear Shop Owner,</h2>
+        <div class="orange-line animate-up"></div>
+        <p class="slide-body animate-up">If you're reading this, you've probably already tried everything. You've posted on Indeed. You've paid a recruiter. You've hired someone who seemed solid and watched them quit before the 60-day mark.</p>
+        <p class="slide-body mt-16 animate-up">They do exist. You just haven't had the right system to find them. This roadmap will show you exactly why everything you've tried has failed — and introduce you to a completely different approach.</p>
+        <div class="callout animate-up mt-32">
+          <div class="callout-label">The Promise</div>
+          <p>"Read every page. It will change the way you think about hiring forever."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: SECTION 01 DIVIDER -->
+  <div class="slide slide-section" id="s3">
+    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=1600&q=80')"></div>
+    <div class="slide-inner" style="justify-content: center;">
+      <div class="logo-bug animate-up" style="position: absolute; top: 64px; left: 80px;"><div class="logo-dot"></div><span class="logo-text">ReadyCrew</span></div>
+      <div class="animate-up" style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 200px; color: var(--orange); opacity: 0.08; position: absolute; bottom: -20px; right: -10px; line-height: 1;">01</div>
+      <div class="section-label animate-up">Section One</div>
+      <h2 class="slide-headline headline-lg headline-white animate-up">THE<br><span class="headline-orange">BIG LIE</span></h2>
+      <p class="slide-body mt-24 animate-up" style="max-width: 500px;">Why the narrative you've been sold about the labor shortage is costing your business.</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: THE BIG LIE -->
+  <div class="slide slide-content" id="s4">
+    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80')"></div>
+    <div class="slide-inner">
+      <div class="logo-bug animate-up"><div class="logo-dot"></div><span class="logo-text">ReadyCrew</span></div>
+      <div style="margin: auto 0; max-width: 780px;">
+        <div class="section-label animate-up">The Big Domino</div>
+        <h2 class="slide-headline headline-md headline-white animate-up">It's Not a Labor<br><span class="headline-orange">Shortage.</span><br>It's a Sourcing Problem.</h2>
+        <div class="orange-line animate-up"></div>
+        <p class="slide-body animate-up">There are qualified, experienced, certified service techs in your city right now who are NOT on Indeed. They're not applying to job boards. They exist in a completely different pool — one that most shop owners have never been able to access.</p>
+        <div class="callout animate-up mt-32">
+          <div class="callout-label">The One Belief to Break</div>
+          <p>"The techs you need already exist. You just haven't had a system to reach them."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: SECTION 02 DIVIDER -->
+  <div class="slide slide-section" id="s5">
+    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=1600&q=80')"></div>
+    <div class="slide-inner" style="justify-content: center;">
+      <div class="logo-bug animate-up" style="position: absolute; top: 64px; left: 80px;"><div class="logo-dot"></div><span class="logo-text">ReadyCrew</span></div>
+      <div class="animate-up" style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 200px; color: var(--orange); opacity: 0.08; position: absolute; bottom: -20px; right: -10px; line-height: 1;">02</div>
+      <div class="section-label animate-up">Section Two</div>
+      <h2 class="slide-headline headline-lg headline-white animate-up">WHY IT<br><span class="headline-orange">FAILED</span></h2>
+      <p class="slide-body mt-24 animate-up" style="max-width: 500px;">The system was never designed for trades businesses.</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: THE VILLAIN -->
+  <div class="slide slide-content" id="s6">
+    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?w=1600&q=80')"></div>
+    <div class="slide-inner">
+      <div class="logo-bug animate-up"><div class="logo-dot"></div><span class="logo-text">ReadyCrew</span></div>
+      <div style="margin: auto 0; max-width: 780px;">
+        <div class="section-label animate-up">The Villain</div>
+        <h2 class="slide-headline headline-md animate-up" style="color: var(--white);">The System Was Never<br><span class="headline-orange">Built For You</span></h2>
+        <div class="orange-line animate-up"></div>
+        <p class="slide-body animate-up">Job boards were designed for office workers. Generalist staffing agencies were built for warehouses and factories. Neither understand what it means to place someone who can pull up to a call, diagnose a system, and close out the ticket without anyone holding their hand.</p>
+        <p class="slide-body mt-16 animate-up">When you post on Indeed, you get whoever is actively searching for jobs that day. When you call a recruiter, they search the same pool — and charge you 20% of annual salary to do it.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: 5 MISTAKES -->
+  <div class="slide slide-content" id="s7">
+    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1600&q=80')"></div>
+    <div class="slide-inner" style="justify-content: center;">
+      <div class="logo-bug animate-up" style="position: absolute; top: 64px; left: 80px;"><div class="logo-dot"></div><span class="logo-text">ReadyCrew</span></div>
+      <h2 class="slide-headline headline-sm animate-up" style="color: var(--white); margin-bottom: 28px;">5 Mistakes Keeping<br><span class="headline-orange">Your Trucks Empty</span></h2>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 860px;">
+        <div class="mistake-box animate-up">
+          <div class="mistake-num">01</div>
+          <div class="mistake-title">Wrong Pond</div>
+          <div class="mistake-body">Job boards recycle the same unqualified applicant pool every other employer uses.</div>
+        </div>
+        <div class="mistake-box animate-up">
+          <div class="mistake-num">02</div>
+          <div class="mistake-title">No Standard</div>
+          <div class="mistake-body">Without a defined truck-ready criteria, you hire who seems good — not who actually is.</div>
+        </div>
+        <div class="mistake-box animate-up">
+          <div class="mistake-num">03</div>
+          <div class="mistake-title">Paying for Bodies</div>
+          <div class="mistake-body">Traditional recruiters get paid at placement. Retention? Not their problem.</div>
+        </div>
+        <div class="mistake-box animate-up">
+          <div class="mistake-num">04</div>
+          <div class="mistake-title">Skipping References</div>
+          <div class="mistake-body">Track record with prior employers is the single best predictor of future performance.</div>
+        </div>
+      </div>
+      <div class="mistake-box animate-up" style="max-width: 860px; margin-top: 14px;">
+        <div class="mistake-num">05</div>
+        <div class="mistake-title">No Guarantee</div>
+        <div class="mistake-body">Without a retention guarantee, 100% of the risk sits with you. That's not a placement — that's a gamble.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: SECTION 03 DIVIDER -->
+  <div class="slide slide-section" id="s8">
+    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1581244277943-fe4a9c777540?w=1600&q=80')"></div>
+    <div class="slide-inner" style="justify-content: center;">
+      <div class="logo-bug animate-up" style="position: absolute; top: 64px; left: 80px;"><div class="logo-dot"></div><span class="logo-text">ReadyCrew</span></div>
+      <div class="animate-up" style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 200px; color: var(--orange); opacity: 0.08; position: absolute; bottom: -20px; right: -10px; line-height: 1;">03</div>
+      <div class="section-label animate-up">Section Three</div>
+      <h2 class="slide-headline headline-lg headline-white animate-up">THE<br><span class="headline-orange">DISCOVERY</span></h2>
+      <p class="slide-body mt-24 animate-up" style="max-width: 500px;">The epiphany that built an entirely different approach to trades hiring.</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: THE EPIPHANY -->
+  <div class="slide slide-content" id="s9">
+    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=1600&q=80')"></div>
+    <div class="slide-inner">
+      <div class="logo-bug animate-up"><div class="logo-dot"></div><span class="logo-text">ReadyCrew</span></div>
+      <div style="margin: auto 0; max-width: 780px;">
+        <div class="section-label animate-up">The Epiphany Bridge</div>
+        <h2 class="slide-headline headline-md animate-up" style="color: var(--white);">The Discovery That<br><span class="headline-orange">Changed Everything</span></h2>
+        <div class="orange-line animate-up"></div>
+        <p class="slide-body animate-up">We kept asking: where are the good techs actually going? The best service techs with EPA 608 certs, 5+ years of field experience, a history of running solo calls — they're not refreshing Indeed every morning.</p>
+        <p class="slide-body mt-16 animate-up">They exist in a different place entirely. Once we figured out how to reach that pool consistently, we built a system around it. Then we added something no staffing company was doing: a non-negotiable, trade-specific standard.</p>
+        <div class="callout animate-up mt-32">
+          <div class="callout-label">The New Opportunity</div>
+          <p>"This is not a better job board. It's not a faster recruiter. It's a completely different vehicle."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 10: SECTION 04 DIVIDER -->
+  <div class="slide slide-section" id="s10">
+    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=1600&q=80')"></div>
+    <div class="slide-inner" style="justify-content: center;">
+      <div class="logo-bug animate-up" style="position: absolute; top: 64px; left: 80px;"><div class="logo-dot"></div><span class="logo-text">ReadyCrew</span></div>
+      <div class="animate-up" style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 200px; color: var(--orange); opacity: 0.08; position: absolute; bottom: -20px; right: -10px; line-height: 1;">04</div>
+      <div class="section-label animate-up">Section Four</div>
+      <h2 class="slide-headline headline-lg headline-white animate-up">THE<br><span class="headline-orange">STANDARD</span></h2>
+      <p class="slide-body mt-24 animate-up" style="max-width: 500px;">What truck-ready actually means — defined, enforced, non-negotiable.</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 11: THE STANDARD -->
+  <div class="slide slide-content" id="s11">
+    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=1600&q=80')"></div>
+    <div class="slide-inner" style="justify-content: center;">
+      <div class="logo-bug animate-up" style="position: absolute; top: 64px; left: 80px;"><div class="logo-dot"></div><span class="logo-text">ReadyCrew</span></div>
+      <h2 class="slide-headline headline-sm animate-up" style="color: var(--white); margin-bottom: 8px;">The 6-Point<br><span class="headline-orange">Truck-Ready Criteria</span></h2>
+      <p class="slide-body animate-up" style="margin-bottom: 24px;">Every candidate must clear all 6 before they ever meet a shop owner.</p>
+      <div class="criteria-grid animate-up">
+        <div class="criteria-item">
+          <div class="criteria-check"><svg viewBox="0 0 16 16" fill="none"><polyline points="2,8 6,12 14,4" stroke="#C2410C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="criteria-text"><strong>EPA 608 Universal Cert</strong>Valid certification required. No exceptions, no provisional candidates.</div>
+        </div>
+        <div class="criteria-item">
+          <div class="criteria-check"><svg viewBox="0 0 16 16" fill="none"><polyline points="2,8 6,12 14,4" stroke="#C2410C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="criteria-text"><strong>3+ Years Field Experience</strong>Real service calls — not install-only, not apprentice-only.</div>
+        </div>
+        <div class="criteria-item">
+          <div class="criteria-check"><svg viewBox="0 0 16 16" fill="none"><polyline points="2,8 6,12 14,4" stroke="#C2410C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="criteria-text"><strong>Solo Call History</strong>Must have verifiable history running service calls independently.</div>
+        </div>
+        <div class="criteria-item">
+          <div class="criteria-check"><svg viewBox="0 0 16 16" fill="none"><polyline points="2,8 6,12 14,4" stroke="#C2410C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="criteria-text"><strong>Clean Background Check</strong>Full criminal and employment history review.</div>
+        </div>
+        <div class="criteria-item">
+          <div class="criteria-check"><svg viewBox="0 0 16 16" fill="none"><polyline points="2,8 6,12 14,4" stroke="#C2410C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="criteria-text"><strong>2 Verified References</strong>We call prior trades employers. We ask the hard questions.</div>
+        </div>
+        <div class="criteria-item">
+          <div class="criteria-check"><svg viewBox="0 0 16 16" fill="none"><polyline points="2,8 6,12 14,4" stroke="#C2410C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="criteria-text"><strong>Skills Assessment + Interview</strong>Technical knowledge, troubleshooting ability, work ethic evaluated directly.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 12: SECTION 05 DIVIDER -->
+  <div class="slide slide-section" id="s12">
+    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1600&q=80')"></div>
+    <div class="slide-inner" style="justify-content: center;">
+      <div class="logo-bug animate-up" style="position: absolute; top: 64px; left: 80px;"><div class="logo-dot"></div><span class="logo-text">ReadyCrew</span></div>
+      <div class="animate-up" style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 200px; color: var(--orange); opacity: 0.08; position: absolute; bottom: -20px; right: -10px; line-height: 1;">05</div>
+      <div class="section-label animate-up">Section Five</div>
+      <h2 class="slide-headline headline-lg headline-white animate-up">THE<br><span class="headline-orange">SYSTEM</span></h2>
+      <p class="slide-body mt-24 animate-up" style="max-width: 500px;">The ReadyCrew Placement System — 4 steps, built for trades businesses only.</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 13: FRAMEWORK INTRO -->
+  <div class="slide slide-stat" id="s13">
+    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1600&q=80')"></div>
+    <div class="slide-inner" style="justify-content: center;">
+      <div class="logo-bug animate-up" style="position: absolute; top: 64px; left: 80px;"><div class="logo-dot"></div><span class="logo-text">ReadyCrew</span></div>
+      <div style="text-align: center;">
+        <div class="section-label animate-up" style="text-align: center;">A Completely Different Vehicle</div>
+        <h2 class="slide-headline headline-lg animate-up" style="color: var(--white); text-align: center;">The ReadyCrew<br><span class="headline-orange">Placement System</span></h2>
+        <div class="orange-line animate-up" style="margin: 24px auto;"></div>
+        <div style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 32px;" class="animate-up">
+          <div style="background: var(--orange); padding: 12px 28px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: 2px; text-transform: uppercase;">01 SOURCE</div>
+          <div style="color: var(--orange); font-size: 24px; display: flex; align-items: center; padding: 0 8px;">→</div>
+          <div style="background: var(--orange); padding: 12px 28px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.85;">02 SCREEN</div>
+          <div style="color: var(--orange); font-size: 24px; display: flex; align-items: center; padding: 0 8px;">→</div>
+          <div style="background: var(--orange); padding: 12px 28px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.7;">03 PLACE</div>
+          <div style="color: var(--orange); font-size: 24px; display: flex; align-items: center; padding: 0 8px;">→</div>
+          <div style="background: var(--orange); padding: 12px 28px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.55;">04 GUARANTEE</div>
+        </div>
+        <p class="slide-body animate-up mt-32" style="text-align: center; margin: 32px auto 0; max-width: 580px;">The first purpose-built placement system for service trade businesses. Proprietary source + non-negotiable standard + 14-day timeline + stay guarantee.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 14: STEP 01 SOURCE -->
+  <div class="slide slide-content" id="s14">
+    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80')"></div>
+    <div class="slide-inner">
+      <div class="logo-bug animate-up"><div class="logo-dot"></div><span class="logo-text">ReadyCrew</span></div>
+      <div style="margin: auto 0; max-width: 760px;">
+        <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 120px; color: var(--orange); opacity: 0.15; line-height: 0.8; margin-bottom: -20px;" class="animate-up">01</div>
+        <h2 class="slide-headline headline-md animate-up" style="color: var(--white);">SOURCE<br><span class="headline-orange" style="font-size: 0.5em; letter-spacing: 2px;">Access The Hidden Pool</span></h2>
+        <div class="orange-line animate-up"></div>
+        <p class="slide-body animate-up">We don't source from job boards. We reach qualified service techs through channels that generalist agencies don't use and can't access at scale.</p>
+        <p class="slide-body mt-16 animate-up">These are techs who are not actively applying everywhere. The best people rarely are. That's why our candidate pool looks fundamentally different from anything you've seen before.</p>
+        <div class="callout animate-up mt-32">
+          <div class="callout-label">Outcome</div>
+          <p>Pre-identified candidates in your city who match your trade and standards — before you get on a call with us.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 15: STEP 02 SCREEN -->
+  <div class="slide slide-content" id="s15">
+    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=1600&q=80')"></div>
+    <div class="slide-inner">
+      <div class="logo-bug animate-up"><div class="logo-dot"></div><span class="logo-text">ReadyCrew</span></div>
+      <div style="margin: auto 0; max-width: 760px;">
+        <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 120px; color: var(--orange); opacity: 0.15; line-height: 0.8; margin-bottom: -20px;" class="animate-up">02</div>
+        <h2 class="slide-headline headline-md animate-up" style="color: var(--white);">SCREEN<br><span class="headline-orange" style="font-size: 0.5em; letter-spacing: 2px;">The Standard No One Else Enforces</span></h2>
+        <div class="orange-line animate-up"></div>
+        <p class="slide-body animate-up">Every candidate goes through our 6-point truck-ready screening process. EPA 608 check. Experience verification. Solo call history confirmation. Background check. Reference calls. Technical interview.</p>
+        <p class="slide-body mt-16 animate-up">We are not checking boxes. We are genuinely trying to disqualify candidates. Because the ones who make it through are the ones worth presenting. Most don't make it. That's the point.</p>
+        <div class="callout animate-up mt-32">
+          <div class="callout-label">Outcome</div>
+          <p>You only meet candidates who have already proven they can do the job. No more gut-feel interviews.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 16: STEP 03 PLACE -->
+  <div class="slide slide-content" id="s16">
+    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1600&q=80')"></div>
+    <div class="slide-inner">
+      <div class="logo-bug animate-up"><div class="logo-dot"></div><span class="logo-text">ReadyCrew</span></div>
+      <div style="margin: auto 0; max-width: 760px;">
+        <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 120px; color: var(--orange); opacity: 0.15; line-height: 0.8; margin-bottom: -20px;" class="animate-up">03</div>
+        <h2 class="slide-headline headline-md animate-up" style="color: var(--white);">PLACE<br><span class="headline-orange" style="font-size: 0.5em; letter-spacing: 2px;">In 14 Days. No Surprises.</span></h2>
+        <div class="orange-line animate-up"></div>
+        <p class="slide-body animate-up">Average placement timeline: 14 days. Not 6-8 weeks. Not "we'll see." 14 days. Because we maintain an active bench of pre-screened candidates before you ever call us.</p>
+        <p class="slide-body mt-16 animate-up">We're not starting from scratch when you sign — we're matching you to people we've already vetted. Talk to us about how pricing works — it's simple, transparent, and built around your success.</p>
+        <div class="callout animate-up mt-32">
+          <div class="callout-label">Outcome</div>
+          <p>A truck-ready tech on your roster inside two weeks. Your trucks start running. Customers stop waiting.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 17: STEP 04 GUARANTEE -->
+  <div class="slide slide-content" id="s17">
+    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1600&q=80')"></div>
+    <div class="slide-inner">
+      <div class="logo-bug animate-up"><div class="logo-dot"></div><span class="logo-text">ReadyCrew</span></div>
+      <div style="margin: auto 0; max-width: 760px;">
+        <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 120px; color: var(--orange); opacity: 0.15; line-height: 0.8; margin-bottom: -20px;" class="animate-up">04</div>
+        <h2 class="slide-headline headline-md animate-up" style="color: var(--white);">GUARANTEE<br><span class="headline-orange" style="font-size: 0.5em; letter-spacing: 2px;">They Stay — Or You Don't Pay</span></h2>
+        <div class="orange-line animate-up"></div>
+        <p class="slide-body animate-up">This is the piece no one else offers. Every other hiring option puts 100% of the risk on you. If your Indeed hire quits — your problem. Recruiter placement doesn't work out — your problem.</p>
+        <p class="slide-body mt-16 animate-up">We guarantee every tech we place stays. If they leave or don't perform, we source and place a replacement at zero additional cost. No refund requests. No awkward conversations. We just fix it.</p>
+        <div class="callout animate-up mt-32">
+          <div class="callout-label">Outcome</div>
+          <p>The risk of hiring shifts from you to us. That's how confident we are in our standard.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 18: SECTION 06 DIVIDER -->
+  <div class="slide slide-section" id="s18">
+    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?w=1600&q=80')"></div>
+    <div class="slide-inner" style="justify-content: center;">
+      <div class="logo-bug animate-up" style="position: absolute; top: 64px; left: 80px;"><div class="logo-dot"></div><span class="logo-text">ReadyCrew</span></div>
+      <div class="animate-up" style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 200px; color: var(--orange); opacity: 0.08; position: absolute; bottom: -20px; right: -10px; line-height: 1;">06</div>
+      <div class="section-label animate-up">Section Six</div>
+      <h2 class="slide-headline headline-lg headline-white animate-up">PROOF<br><span class="headline-orange">IT WORKS</span></h2>
+      <p class="slide-body mt-24 animate-up" style="max-width: 500px;">How a home development company's fulfilment problem became the model for everything we built.</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 19: CASE STUDY STAT -->
+  <div class="slide slide-stat" id="s19">
+    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=1600&q=80')"></div>
+    <div class="slide-inner" style="justify-content: center; align-items: flex-start;">
+      <div class="logo-bug animate-up" style="position: absolute; top: 64px; left: 80px;"><div class="logo-dot"></div><span class="logo-text">ReadyCrew</span></div>
+      <div style="margin: auto 0; max-width: 820px;">
+        <div class="section-label animate-up">Case Study — How It Started</div>
+        <h2 class="slide-headline headline-md animate-up" style="color: var(--white);">A Home Developer<br><span class="headline-orange">Had a Fulfilment Problem.</span><br>We Solved It.</h2>
+        <div class="orange-line animate-up"></div>
+        <p class="slide-body animate-up">A rapidly growing home development company was selling homes faster than they could build them. The bottleneck wasn't capital. It wasn't land. It wasn't demand. It was people — specifically, the skilled service techs needed to complete builds across multiple states simultaneously.</p>
+        <p class="slide-body mt-16 animate-up">Every delayed hire meant a delayed build. Every delayed build meant a delayed sale. The cost of not having the right tech in the right city at the right time was enormous — and growing every week.</p>
+        <div class="callout animate-up mt-32">
+          <div class="callout-label">The Challenge</div>
+          <p>"They needed a reliable supply of qualified, deployable techs across the USA — fast. Traditional hiring couldn't keep pace with their growth."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 20: CASE STUDY STORY -->
+  <div class="slide slide-content" id="s20">
+    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1581244277943-fe4a9c777540?w=1600&q=80')"></div>
+    <div class="slide-inner">
+      <div class="logo-bug animate-up"><div class="logo-dot"></div><span class="logo-text">ReadyCrew</span></div>
+      <div style="margin: auto 0; max-width: 820px;">
+        <div class="section-label animate-up">Case Study — The Outcome</div>
+        <h2 class="slide-headline headline-sm animate-up" style="color: var(--white);">We Became Their<br><span class="headline-orange">On-Demand Hiring System.</span></h2>
+        <div class="orange-line animate-up"></div>
+        <p class="slide-body animate-up">We introduced The ReadyCrew Placement System to their operation. Every time they needed a tech — in any city, for any trade — we had someone pre-screened and ready to deploy. The fulfilment bottleneck disappeared. Builds completed on schedule. Sales accelerated.</p>
+        <p class="slide-body mt-16 animate-up">What that client showed us was that the same problem existed everywhere — not just in home development, but in every service trades business trying to grow. You can't scale what you can't staff.</p>
+        <p class="slide-body mt-16 animate-up">We took that model and built ReadyCrew around it. Today we serve trades shops across the USA with the same system — reliable, fast, guaranteed placement whenever you need it.</p>
+        <div class="callout animate-up mt-24">
+          <div class="callout-label">The Lesson</div>
+          <p>"You can't scale what you can't staff. Fix the people problem — everything else follows."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 21: SECTION 07 DIVIDER -->
+  <div class="slide slide-section" id="s21">
+    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=1600&q=80')"></div>
+    <div class="slide-inner" style="justify-content: center;">
+      <div class="logo-bug animate-up" style="position: absolute; top: 64px; left: 80px;"><div class="logo-dot"></div><span class="logo-text">ReadyCrew</span></div>
+      <div class="animate-up" style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 200px; color: var(--orange); opacity: 0.08; position: absolute; bottom: -20px; right: -10px; line-height: 1;">07</div>
+      <div class="section-label animate-up">Section Seven</div>
+      <h2 class="slide-headline headline-lg headline-white animate-up">TWO<br><span class="headline-orange">PATHS</span></h2>
+      <p class="slide-body mt-24 animate-up" style="max-width: 500px;">The decision you make today determines which one you're on.</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 22: TWO PATHS -->
+  <div class="slide" id="s22" style="background: var(--dark);">
+    <div class="two-path">
+      <div class="path-side dark-side">
+        <div class="logo-bug animate-up" style="margin-bottom: 48px;"><div class="logo-dot" style="background: rgba(255,255,255,0.3);"></div><span class="logo-text" style="opacity: 0.4;">If Nothing Changes</span></div>
+        <h3 class="path-title animate-up" style="color: rgba(255,255,255,0.4);">Path 01</h3>
+        <div class="path-item animate-up">
+          <div class="path-icon" style="color: rgba(255,255,255,0.3); font-size: 20px;">✗</div>
+          <p style="color: rgba(255,255,255,0.55);">Another month of idle trucks and missed revenue</p>
+        </div>
+        <div class="path-item animate-up">
+          <div class="path-icon" style="color: rgba(255,255,255,0.3); font-size: 20px;">✗</div>
+          <p style="color: rgba(255,255,255,0.55);">Another bad hire who costs more than the role was worth</p>
+        </div>
+        <div class="path-item animate-up">
+          <div class="path-icon" style="color: rgba(255,255,255,0.3); font-size: 20px;">✗</div>
+          <p style="color: rgba(255,255,255,0.55);">More recruiter fees with no guarantee</p>
+        </div>
+        <div class="path-item animate-up">
+          <div class="path-icon" style="color: rgba(255,255,255,0.3); font-size: 20px;">✗</div>
+          <p style="color: rgba(255,255,255,0.55);">Customers calling your competitors instead</p>
+        </div>
+        <div class="path-item animate-up">
+          <div class="path-icon" style="color: rgba(255,255,255,0.3); font-size: 20px;">✗</div>
+          <p style="color: rgba(255,255,255,0.55);">The same cycle. Again and again.</p>
+        </div>
+      </div>
+      <div class="path-side orange-side">
+        <div class="logo-bug animate-up" style="margin-bottom: 48px;"><div class="logo-dot" style="background: rgba(255,255,255,0.5);"></div><span class="logo-text">With ReadyCrew</span></div>
+        <h3 class="path-title animate-up">Path 02</h3>
+        <div class="path-item animate-up">
+          <div class="path-icon" style="font-size: 20px; font-weight: 700;">✓</div>
+          <p>A truck-ready tech on your roster in 14 days</p>
+        </div>
+        <div class="path-item animate-up">
+          <div class="path-icon" style="font-size: 20px; font-weight: 700;">✓</div>
+          <p>Someone who shows up, runs calls solo, and stays</p>
+        </div>
+        <div class="path-item animate-up">
+          <div class="path-icon" style="font-size: 20px; font-weight: 700;">✓</div>
+          <p>Your trucks running. Revenue protected.</p>
+        </div>
+        <div class="path-item animate-up">
+          <div class="path-icon" style="font-size: 20px; font-weight: 700;">✓</div>
+          <p>A hiring process you can repeat every time you grow</p>
+        </div>
+        <div class="path-item animate-up">
+          <div class="path-icon" style="font-size: 20px; font-weight: 700;">✓</div>
+          <p>Guaranteed to stay — or you don't pay</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 23: CTA -->
+  <div class="slide slide-cta" id="s23">
+    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1600&q=80')"></div>
+    <div class="slide-inner">
+      <div class="logo-bug animate-up"><div class="logo-dot"></div><span class="logo-text">ReadyCrew Staffing</span></div>
+      <div class="cta-content">
+        <div class="cta-badge animate-up">Free — No Commitment</div>
+        <h2 class="slide-headline headline-lg animate-up" style="color: var(--white);">BOOK YOUR<br><span class="headline-orange">PLACEMENT</span><br>STRATEGY CALL</h2>
+        <div class="orange-line animate-up"></div>
+        <p class="slide-body animate-up">20 minutes. We'll map out exactly what we'd source for your shop, what the timeline looks like, and whether we're the right fit. No pitch. No pressure.</p>
+        <ul class="cta-checklist animate-up">
+          <li><span>→</span> Completely free — no cost to have the conversation</li>
+          <li><span>→</span> No deposit or commitment required to book</li>
+          <li><span>→</span> You'll leave knowing exactly what your next hire looks like</li>
+        </ul>
+        <a href="https://readycrewstaffing.com" class="cta-url animate-up">readycrewstaffing.com</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 24: BACK COVER -->
+  <div class="slide slide-stat" id="s24">
+    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1600&q=80')"></div>
+    <div class="slide-inner" style="justify-content: center; align-items: center; text-align: center;">
+      <div>
+        <div style="display: flex; align-items: center; gap: 12px; justify-content: center; margin-bottom: 32px;" class="animate-up">
+          <div style="width: 10px; height: 10px; background: var(--orange); border-radius: 50%;"></div>
+          <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 28px; letter-spacing: 3px; text-transform: uppercase;">ReadyCrew Staffing</span>
+        </div>
+        <div class="orange-line animate-up" style="margin: 0 auto 32px;"></div>
+        <p class="animate-up" style="font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: clamp(20px, 3vw, 32px); color: rgba(255,255,255,0.7); line-height: 1.4; max-width: 640px; text-transform: uppercase; letter-spacing: 1px;">Truck-ready trades techs.<br>Placed in 14 days.<br><span style="color: var(--orange);">Guaranteed to stay or you don't pay.</span></p>
+        <p class="animate-up mt-48" style="font-size: 14px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.3);">readycrewstaffing.com</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Navigation -->
+<div id="nav">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">← Prev</button>
+  <div class="nav-divider"></div>
+  <div class="nav-counter" id="counter">01 / 24</div>
+  <div class="nav-divider"></div>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+</div>
+
+<script>
+  let current = 0;
+  const total = 24;
+  const slides = document.querySelectorAll('.slide');
+
+  function updateSlide() {
+    slides.forEach((s, i) => {
+      s.classList.toggle('active', i === current);
+    });
+    document.getElementById('counter').textContent =
+      String(current + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+    document.getElementById('slide-num').textContent =
+      String(current + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+    document.getElementById('progress').style.width =
+      ((current + 1) / total * 100) + '%';
+    document.getElementById('prevBtn').style.opacity = current === 0 ? '0.3' : '1';
+    document.getElementById('nextBtn').style.opacity = current === total - 1 ? '0.3' : '1';
+  }
+
+  function changeSlide(dir) {
+    const next = current + dir;
+    if (next >= 0 && next < total) {
+      current = next;
+      updateSlide();
+    }
+  }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault();
+      changeSlide(1);
+    }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      changeSlide(-1);
+    }
+  });
+
+  // Touch/swipe support
+  let touchStart = null;
+  document.addEventListener('touchstart', e => { touchStart = e.touches[0].clientX; });
+  document.addEventListener('touchend', e => {
+    if (!touchStart) return;
+    const diff = touchStart - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) changeSlide(diff > 0 ? 1 : -1);
+    touchStart = null;
+  });
+
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+  document.querySelectorAll('button, a').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('grow'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('grow'));
+  });
+
+  // Click to advance (excluding nav)
+  document.getElementById('slides').addEventListener('click', (e) => {
+    if (!e.target.closest('#nav')) {
+      const x = e.clientX / window.innerWidth;
+      changeSlide(x > 0.15 ? 1 : -1);
+    }
+  });
+
+  updateSlide();
+</script>
+</body>
+</html>
